@@ -1,0 +1,474 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>House Rules — Horizon House</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand: #F5EFE4;
+    --warm-white: #FDFAF5;
+    --horizon: #B8CDD4;
+    --deep: #2C3E3F;
+    --clay: #9E7B5A;
+    --mist: #D9E6EA;
+    --text: #3A3028;
+    --light-text: #7A6E64;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--warm-white);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.4rem 3rem;
+    background: rgba(253,250,245,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(184,205,212,0.3);
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    color: var(--deep);
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+
+  .nav-logo span {
+    color: var(--clay);
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .nav-link {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--deep);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .nav-link:hover { color: var(--clay); }
+
+  .nav-cta {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--warm-white);
+    background: var(--deep);
+    padding: 0.65rem 1.6rem;
+    text-decoration: none;
+    transition: background 0.3s ease;
+  }
+
+  .nav-cta:hover { background: var(--clay); }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 4px;
+    z-index: 200;
+  }
+  .hamburger span {
+    width: 24px;
+    height: 2px;
+    background: var(--deep);
+    transition: all 0.3s ease;
+    display: block;
+  }
+  .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+  .hamburger.active span:nth-child(2) { opacity: 0; }
+  .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+  .nav-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(44,62,63,0.5);
+    z-index: 90;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .nav-overlay.active {
+    display: block;
+    opacity: 1;
+  }
+
+  /* ── HERO ── */
+  .rules-hero {
+    margin-top: 80px;
+    min-height: 42vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 5rem 2rem;
+    position: relative;
+    overflow: hidden;
+    background:
+      linear-gradient(rgba(44,62,63,0.55), rgba(44,62,63,0.55)),
+      linear-gradient(135deg, #C9B79C 0%, #B8967A 40%, #8A6F58 75%, #5E4B3C 100%);
+  }
+
+  .rules-hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.6rem, 5vw, 4.2rem);
+    font-weight: 300;
+    line-height: 1.05;
+    color: var(--warm-white);
+    margin-bottom: 1.4rem;
+  }
+
+  .rules-hero-title em {
+    font-style: italic;
+    color: var(--horizon);
+  }
+
+  .rules-hero-sub {
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: rgba(253,250,245,0.85);
+    max-width: 480px;
+    margin-bottom: 2.4rem;
+  }
+
+  .download-btn {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--warm-white);
+    background: var(--deep);
+    padding: 0.95rem 2.2rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    border: 1px solid rgba(253,250,245,0.25);
+  }
+
+  .download-btn:hover {
+    background: var(--clay);
+    transform: translateY(-2px);
+  }
+
+  .download-btn svg { width: 15px; height: 15px; }
+
+  /* ── GUIDELINES ── */
+  .guidelines {
+    padding: 6rem 2rem;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .guidelines-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--deep);
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .guidelines-title em { font-style: italic; color: var(--clay); }
+
+  .guideline {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: var(--warm-white);
+    border: 1px solid rgba(184,205,212,0.4);
+    border-radius: 10px;
+    padding: 1.1rem 1.4rem;
+    margin-bottom: 0.9rem;
+    box-shadow: 0 1px 3px rgba(44,62,63,0.04);
+    transition: border-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .guideline:hover {
+    border-color: var(--clay);
+    transform: translateX(3px);
+  }
+
+  .guideline-icon {
+    flex-shrink: 0;
+    width: 22px;
+    height: 22px;
+    color: var(--clay);
+    margin-top: 1px;
+  }
+
+  .guideline-icon svg { width: 100%; height: 100%; }
+
+  .guideline-text {
+    font-size: 0.95rem;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--text);
+  }
+
+  .guidelines-note {
+    margin-top: 3rem;
+    text-align: center;
+    font-size: 0.88rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--light-text);
+    max-width: 560px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--deep);
+    padding: 3rem 5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--warm-white);
+    text-decoration: none;
+  }
+
+  .footer-logo span { color: var(--horizon); }
+
+  .footer-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .footer-links a {
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(253,250,245,0.5);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .footer-links a:hover { color: var(--horizon); }
+
+  .footer-copy {
+    font-size: 0.75rem;
+    color: rgba(253,250,245,0.3);
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 900px) {
+    .hamburger { display: flex; }
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-right {
+      position: fixed;
+      top: 0; right: -300px;
+      width: 280px;
+      height: 100vh;
+      background: var(--warm-white);
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 2rem 2.5rem;
+      gap: 0;
+      z-index: 150;
+      transition: right 0.3s ease;
+      box-shadow: -4px 0 20px rgba(0,0,0,0.1);
+    }
+    .nav-right.active { right: 0; }
+    .nav-link { font-size: 0.9rem; padding: 0.9rem 0; width: 100%; border-bottom: 1px solid rgba(184,205,212,0.3); }
+    .nav-cta { margin-top: 1rem; width: 100%; text-align: center; padding: 0.8rem 1.6rem; }
+    .rules-hero { padding: 4rem 1.5rem; }
+    .guidelines { padding: 4rem 1.5rem; }
+    footer { padding: 2.5rem 1.8rem; flex-direction: column; align-items: flex-start; }
+    .footer-links { flex-wrap: wrap; gap: 1.2rem; }
+  }
+
+  @media (max-width: 600px) {
+    nav { padding: 1rem 1.2rem; }
+    .nav-logo { font-size: 1.2rem; }
+    .rules-hero { padding: 3rem 1.2rem; min-height: 30vh; }
+    .rules-hero-title { font-size: 2rem; }
+    .rules-hero-sub { font-size: 0.9rem; }
+    .download-btn { font-size: 0.72rem; padding: 0.8rem 1.6rem; }
+    .guidelines { padding: 3rem 1.2rem; }
+    .guidelines-title { font-size: 1.8rem; margin-bottom: 2rem; }
+    .guideline { padding: 0.9rem 1rem; }
+    .guideline-text { font-size: 0.88rem; }
+    .guidelines-note { font-size: 0.82rem; }
+    footer { padding: 2rem 1.2rem; }
+    .footer-links { gap: 0.8rem; }
+    .footer-links a { font-size: 0.68rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav-overlay" onclick="closeMenu()"></div>
+<nav>
+  <div class="nav-logo">Horizon <span>House</span></div>
+  <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-right">
+    <a href="/" class="nav-link">Home</a>
+    <a href="what-we-do.html" class="nav-link">About</a>
+    <a href="house-rules.html" class="nav-link">House Rules</a>
+    <a href="faq.html" class="nav-link">FAQ</a>
+    <a href="index.html#contact" class="nav-link">Contact</a>
+    <a href="index.html#contact" class="nav-cta">Start Today</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="rules-hero">
+  <h1 class="rules-hero-title">House <em>Rules</em></h1>
+  <p class="rules-hero-sub">Our guidelines ensure a safe, supportive, and structured environment for everyone in our community.</p>
+  <a href="Horizon-House-Rules.pdf" class="download-btn" download>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+    Download House Rules
+  </a>
+</section>
+
+<!-- COMMUNITY GUIDELINES -->
+<section class="guidelines">
+  <h2 class="guidelines-title">Community <em>Guidelines</em></h2>
+
+  <div class="guideline">
+    <span class="guideline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></span>
+    <p class="guideline-text">Maintain absolute sobriety (zero tolerance for drugs or alcohol).</p>
+  </div>
+
+  <div class="guideline">
+    <span class="guideline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></span>
+    <p class="guideline-text">Submit to random drug and alcohol testing.</p>
+  </div>
+
+  <div class="guideline">
+    <span class="guideline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></span>
+    <p class="guideline-text">Attend mandatory house meetings.</p>
+  </div>
+
+  <div class="guideline">
+    <span class="guideline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></span>
+    <p class="guideline-text">Actively participate in a recovery program (AA, NA, SMART Recovery, etc.).</p>
+  </div>
+
+  <div class="guideline">
+    <span class="guideline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></span>
+    <p class="guideline-text">Maintain employment, enroll in school, or actively volunteer.</p>
+  </div>
+
+  <div class="guideline">
+    <span class="guideline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></span>
+    <p class="guideline-text">Complete assigned daily/weekly household chores.</p>
+  </div>
+
+  <div class="guideline">
+    <span class="guideline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></span>
+    <p class="guideline-text">Adhere to the house curfew.</p>
+  </div>
+
+  <div class="guideline">
+    <span class="guideline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></span>
+    <p class="guideline-text">Respect all housemates and staff members.</p>
+  </div>
+
+  <div class="guideline">
+    <span class="guideline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></span>
+    <p class="guideline-text">Keep personal spaces and common areas clean and tidy.</p>
+  </div>
+
+  <div class="guideline">
+    <span class="guideline-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></span>
+    <p class="guideline-text">No overnight guests allowed.</p>
+  </div>
+
+  <p class="guidelines-note">
+    These rules are designed to protect the recovery environment of our home. By joining Horizon House, you agree to abide by these guidelines to support your own recovery and that of your housemates.
+  </p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="index.html" class="footer-logo">Horizon <span>House</span></a>
+  <ul class="footer-links">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#admissions">Admissions</a></li>
+    <li><a href="index.html#process">How to Apply</a></li>
+    <li><a href="house-rules.html">House Rules</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <p class="footer-copy">© 2025 Horizon House. All rights reserved.</p>
+</footer>
+
+<script>
+  function toggleMenu() {
+    document.querySelector('.nav-right').classList.toggle('active');
+    document.querySelector('.hamburger').classList.toggle('active');
+    document.querySelector('.nav-overlay').classList.toggle('active');
+  }
+  function closeMenu() {
+    document.querySelector('.nav-right').classList.remove('active');
+    document.querySelector('.hamburger').classList.remove('active');
+    document.querySelector('.nav-overlay').classList.remove('active');
+  }
+  document.querySelectorAll('.nav-link, .nav-cta').forEach(function(link) {
+    link.addEventListener('click', closeMenu);
+  });
+  window.addEventListener('resize', function() {
+    if (window.innerWidth > 900) closeMenu();
+  });
+</script>
+
+</body>
+</html>

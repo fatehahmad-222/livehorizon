@@ -1,0 +1,681 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ — Horizon House</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand: #F5EFE4;
+    --warm-white: #FDFAF5;
+    --horizon: #B8CDD4;
+    --deep: #2C3E3F;
+    --clay: #9E7B5A;
+    --mist: #D9E6EA;
+    --text: #3A3028;
+    --light-text: #7A6E64;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--warm-white);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.4rem 3rem;
+    background: rgba(253,250,245,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(184,205,212,0.3);
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    color: var(--deep);
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+
+  .nav-logo span {
+    color: var(--clay);
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .nav-link {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--deep);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .nav-link:hover { color: var(--clay); }
+
+  .nav-cta {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--warm-white);
+    background: var(--deep);
+    padding: 0.65rem 1.6rem;
+    text-decoration: none;
+    transition: background 0.3s ease;
+  }
+
+  .nav-cta:hover { background: var(--clay); }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 4px;
+    z-index: 200;
+  }
+  .hamburger span {
+    width: 24px;
+    height: 2px;
+    background: var(--deep);
+    transition: all 0.3s ease;
+    display: block;
+  }
+  .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+  .hamburger.active span:nth-child(2) { opacity: 0; }
+  .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+  .nav-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(44,62,63,0.5);
+    z-index: 90;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .nav-overlay.active {
+    display: block;
+    opacity: 1;
+  }
+
+  /* ── HERO ── */
+  .faq-hero {
+    margin-top: 80px;
+    min-height: 42vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 5rem 2rem;
+    position: relative;
+    overflow: hidden;
+    background:
+      linear-gradient(rgba(44,62,63,0.55), rgba(44,62,63,0.55)),
+      linear-gradient(135deg, #C8DDE4 0%, #B0C8D2 40%, #8DAFC0 75%, #4A7A8E 100%);
+  }
+
+  .faq-hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.6rem, 5vw, 4.2rem);
+    font-weight: 300;
+    line-height: 1.05;
+    color: var(--warm-white);
+    margin-bottom: 1.4rem;
+  }
+
+  .faq-hero-title em {
+    font-style: italic;
+    color: var(--horizon);
+  }
+
+  .faq-hero-sub {
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: rgba(253,250,245,0.85);
+    max-width: 520px;
+    margin-bottom: 2.4rem;
+  }
+
+  /* ── INTRO ── */
+  .faq-intro {
+    padding: 6rem 2rem 3rem;
+    max-width: 740px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .faq-intro p {
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.9;
+    color: var(--light-text);
+  }
+
+  /* ── FAQ ACCORDION ── */
+  .faq-section {
+    padding: 2rem 2rem 6rem;
+    max-width: 740px;
+    margin: 0 auto;
+  }
+
+  .faq-item {
+    border: 1px solid rgba(184,205,212,0.4);
+    border-radius: 10px;
+    margin-bottom: 0.9rem;
+    overflow: hidden;
+    background: var(--warm-white);
+    box-shadow: 0 1px 3px rgba(44,62,63,0.04);
+    transition: border-color 0.3s ease;
+  }
+
+  .faq-item:hover {
+    border-color: var(--clay);
+  }
+
+  .faq-item.active {
+    border-color: var(--clay);
+  }
+
+  .faq-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.2rem 1.4rem;
+    cursor: pointer;
+    user-select: none;
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: left;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-weight: 400;
+    color: var(--deep);
+    line-height: 1.4;
+    transition: color 0.3s ease;
+  }
+
+  .faq-question:hover {
+    color: var(--clay);
+  }
+
+  .faq-icon {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    position: relative;
+    transition: transform 0.3s ease;
+  }
+
+  .faq-item.active .faq-icon {
+    transform: rotate(45deg);
+  }
+
+  .faq-icon::before,
+  .faq-icon::after {
+    content: '';
+    position: absolute;
+    background: var(--clay);
+    border-radius: 1px;
+  }
+
+  .faq-icon::before {
+    width: 20px;
+    height: 2px;
+    top: 9px;
+    left: 0;
+  }
+
+  .faq-icon::after {
+    width: 2px;
+    height: 20px;
+    top: 0;
+    left: 9px;
+  }
+
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s ease;
+  }
+
+  .faq-item.active .faq-answer {
+    max-height: 800px;
+  }
+
+  .faq-answer-inner {
+    padding: 0 1.4rem 1.4rem;
+    font-size: 0.92rem;
+    font-weight: 300;
+    line-height: 1.85;
+    color: var(--light-text);
+  }
+
+  .faq-answer-inner ul {
+    margin-top: 0.8rem;
+    padding-left: 1.2rem;
+  }
+
+  .faq-answer-inner ul li {
+    margin-bottom: 0.4rem;
+    color: var(--light-text);
+  }
+
+  .faq-answer-inner strong {
+    color: var(--text);
+    font-weight: 400;
+  }
+
+  /* ── CONTACT BANNER ── */
+  .faq-contact {
+    background: var(--deep);
+    padding: 4rem 2rem;
+    text-align: center;
+  }
+
+  .faq-contact-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 300;
+    color: var(--warm-white);
+    margin-bottom: 1.5rem;
+  }
+
+  .faq-contact-title em {
+    font-style: italic;
+    color: var(--horizon);
+  }
+
+  .faq-contact-btn {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--warm-white);
+    background: var(--clay);
+    padding: 1rem 2.2rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+
+  .faq-contact-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--deep);
+    padding: 3rem 5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--warm-white);
+    text-decoration: none;
+  }
+
+  .footer-logo span { color: var(--horizon); }
+
+  .footer-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .footer-links a {
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(253,250,245,0.5);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .footer-links a:hover { color: var(--horizon); }
+
+  .footer-copy {
+    font-size: 0.75rem;
+    color: rgba(253,250,245,0.3);
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 900px) {
+    .hamburger { display: flex; }
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-right {
+      position: fixed;
+      top: 0; right: -300px;
+      width: 280px;
+      height: 100vh;
+      background: var(--warm-white);
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 2rem 2.5rem;
+      gap: 0;
+      z-index: 150;
+      transition: right 0.3s ease;
+      box-shadow: -4px 0 20px rgba(0,0,0,0.1);
+    }
+    .nav-right.active { right: 0; }
+    .nav-link { font-size: 0.9rem; padding: 0.9rem 0; width: 100%; border-bottom: 1px solid rgba(184,205,212,0.3); }
+    .nav-cta { margin-top: 1rem; width: 100%; text-align: center; padding: 0.8rem 1.6rem; }
+    .faq-hero { padding: 4rem 1.5rem; }
+    .faq-intro { padding: 4rem 1.5rem 2rem; }
+    .faq-section { padding: 1rem 1.5rem 4rem; }
+    .faq-question { font-size: 1.05rem; }
+    footer { padding: 2.5rem 1.8rem; flex-direction: column; align-items: flex-start; }
+    .footer-links { flex-wrap: wrap; gap: 1.2rem; }
+  }
+
+  @media (max-width: 600px) {
+    nav { padding: 1rem 1.2rem; }
+    .nav-logo { font-size: 1.2rem; }
+    .faq-hero { padding: 3rem 1.2rem; min-height: 30vh; }
+    .faq-hero-title { font-size: 2rem; }
+    .faq-hero-sub { font-size: 0.9rem; }
+    .faq-intro { padding: 3rem 1.2rem 1.5rem; }
+    .faq-intro p { font-size: 0.92rem; }
+    .faq-section { padding: 0.5rem 1.2rem 3rem; }
+    .faq-question { font-size: 0.95rem; padding: 1rem 1.1rem; }
+    .faq-answer-inner { font-size: 0.88rem; padding: 0 1.1rem 1.1rem; }
+    .faq-contact { padding: 3rem 1.2rem; }
+    .faq-contact-title { font-size: 1.5rem; }
+    footer { padding: 2rem 1.2rem; }
+    .footer-links { gap: 0.8rem; }
+    .footer-links a { font-size: 0.68rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav-overlay" onclick="closeMenu()"></div>
+<nav>
+  <div class="nav-logo">Horizon <span>House</span></div>
+  <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-right">
+    <a href="/" class="nav-link">Home</a>
+    <a href="what-we-do.html" class="nav-link">About</a>
+    <a href="house-rules.html" class="nav-link">House Rules</a>
+    <a href="faq.html" class="nav-link">FAQ</a>
+    <a href="index.html#contact" class="nav-link">Contact</a>
+    <a href="index.html#contact" class="nav-cta">Start Today</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="faq-hero">
+  <h1 class="faq-hero-title">Frequently Asked <em>Questions</em></h1>
+  <p class="faq-hero-sub">Everything you need to know about Horizon House — our homes, our mission, and how we support recovery.</p>
+</section>
+
+<!-- INTRO -->
+<div class="faq-intro">
+  <p>Horizon House is a residence where individuals commit to living in a drug- and alcohol-free environment. We provide a structured, supportive community for people maintaining sobriety, whether they are transitioning from treatment programs or voluntarily choosing this lifestyle. Our homes are not treatment facilities but rather safe, substance-free spaces that promote accountability and personal growth.</p>
+</div>
+
+<!-- FAQ ACCORDION -->
+<section class="faq-section">
+
+  <div class="faq-item">
+    <button class="faq-question">
+      <span>1. What is Horizon House?</span>
+      <span class="faq-icon"></span>
+    </button>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        <p>Horizon House is a residence where individuals live in a drug- and alcohol-free environment. We provide a supportive community for people committed to sobriety, whether they are transitioning from treatment programs or voluntarily choosing this lifestyle.</p>
+        <br>
+        <p>Horizon House is not a treatment facility and does not provide clinical services. Instead, we offer structure, accountability, and peer support to help residents maintain their recovery.</p>
+        <br>
+        <p>Key elements that ensure safety include:</p>
+        <ul>
+          <li><strong>Clean Water & Stable Utilities</strong> – Reliable electricity, heating, cooling, and clean water provide a comfortable and hygienic living space.</li>
+          <li><strong>Drug- and Alcohol-Free Environment</strong> – Strict zero-tolerance policies ensure that all residents remain sober, creating a stable and supportive atmosphere.</li>
+          <li><strong>House Rules & Accountability</strong> – Curfews, regular drug testing, and clear expectations help residents stay on track in their recovery journey.</li>
+          <li><strong>Supportive Staff & Peer Community</strong> – Trained staff or house managers provide guidance, structure, and conflict resolution, while residents support one another through shared experiences.</li>
+          <li><strong>Safe & Well-Maintained Property</strong> – Regular upkeep, quiet hours, and neighborhood-friendly policies ensure a peaceful and respectful living environment.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question">
+      <span>2. Who lives in Horizon House?</span>
+      <span class="faq-icon"></span>
+    </button>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        <p>Residents of Horizon House come from diverse backgrounds. All of our residents voluntarily choose to live in our homes and maintain a commitment to abstinence from drugs and alcohol. Our homes provide a peaceful and supportive space for individuals pursuing a healthy, substance-free lifestyle. The average length of stay in our homes is about 12 months.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question">
+      <span>3. Is this home licensed or permitted?</span>
+      <span class="faq-icon"></span>
+    </button>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        <p>No special license or permit is required because Horizon House does not provide clinical treatment or operate as a healthcare facility. Under federal and California fair housing laws, our homes are considered single-family residences and must be treated the same as any other home in the neighborhood.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question">
+      <span>4. How is Horizon House managed?</span>
+      <span class="faq-icon"></span>
+    </button>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        <p>Horizon House operates under house rules that all residents must follow, such as maintaining sobriety, contributing to household responsibilities, and respecting neighbors. Our homes have resident leaders or house managers who oversee daily operations and ensure the home remains safe and orderly.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question">
+      <span>5. Will this increase crime or disrupt the neighborhood?</span>
+      <span class="faq-icon"></span>
+    </button>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        <p>No. Research shows that well-managed sober living homes do not increase crime rates or disrupt neighborhoods. Residents are committed to sobriety and personal accountability, making them invested in maintaining a peaceful and respectful environment.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question">
+      <span>6. How will this affect property values?</span>
+      <span class="faq-icon"></span>
+    </button>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        <p>There is no evidence that sober living homes negatively impact property values when they are well-managed. These homes are often indistinguishable from other residences in the neighborhood and contribute positively by supporting individuals in recovery.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question">
+      <span>7. Will there be traffic or noise issues?</span>
+      <span class="faq-icon"></span>
+    </button>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        <p>Horizon House operates like any other single-family residence. Residents typically work, attend school, or participate in recovery programs during the day, resulting in minimal traffic. House rules include quiet hours and curfews to ensure noise levels remain low and respectful of neighbors.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question">
+      <span>8. Why was this location chosen?</span>
+      <span class="faq-icon"></span>
+    </button>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        <p>Horizon House is located in a residential neighborhood to provide residents with a suitable and supportive environment conducive to recovery. Proximity to community resources such as employment opportunities, public transportation, and recovery meetings is often considered when selecting locations.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question">
+      <span>9. Are there rules or guidelines for residents?</span>
+      <span class="faq-icon"></span>
+    </button>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        <p>Yes, all residents must adhere to house rules designed to maintain a safe and structured environment. Common rules include:</p>
+        <ul>
+          <li>Abstaining from drugs and alcohol.</li>
+          <li>Participating in household responsibilities.</li>
+          <li>Respecting neighbors and maintaining quiet hours.</li>
+        </ul>
+        <br>
+        <p>Failure to follow these rules may result in removal from the program.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question">
+      <span>10. What benefits do Horizon House homes bring to the community?</span>
+      <span class="faq-icon"></span>
+    </button>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        <p>Horizon House provides numerous benefits:</p>
+        <ul>
+          <li>They support individuals committed to maintaining sobriety, reducing the likelihood of relapse.</li>
+          <li>They contribute to public health by fostering recovery-focused lifestyles.</li>
+          <li>They reduce strain on emergency services by providing housing for individuals who might otherwise face challenges without this support.</li>
+          <li>By helping individuals reintegrate into society as productive members, Horizon House homes contribute positively to the community as a whole.</li>
+        </ul>
+        <br>
+        <p>Our homes specifically have a high rate of individuals moving onto permanent housing after their stay with us, and we assist them with finding permanent housing.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question">
+      <span>11. Are sober living homes protected under fair housing laws?</span>
+      <span class="faq-icon"></span>
+    </button>
+    <div class="faq-answer">
+      <div class="faq-answer-inner">
+        <p>Yes. Under federal law (the Fair Housing Act) and California law (the Fair Employment and Housing Act), individuals with disabilities—including those recovering from substance use disorders—are protected from housing discrimination. Horizon House cannot be treated differently than any other single-family home in the neighborhood.</p>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- CONTACT BANNER -->
+<section class="faq-contact">
+  <h2 class="faq-contact-title">Still have <em>questions</em>?</h2>
+  <a href="index.html#contact" class="faq-contact-btn">Get In Touch</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="index.html" class="footer-logo">Horizon <span>House</span></a>
+  <ul class="footer-links">
+    <li><a href="index.html#about">About</a></li>
+    <li><a href="index.html#admissions">Admissions</a></li>
+    <li><a href="index.html#process">How to Apply</a></li>
+    <li><a href="house-rules.html">House Rules</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <p class="footer-copy">© 2025 Horizon House. All rights reserved.</p>
+</footer>
+
+<script>
+  function toggleMenu() {
+    document.querySelector('.nav-right').classList.toggle('active');
+    document.querySelector('.hamburger').classList.toggle('active');
+    document.querySelector('.nav-overlay').classList.toggle('active');
+  }
+  function closeMenu() {
+    document.querySelector('.nav-right').classList.remove('active');
+    document.querySelector('.hamburger').classList.remove('active');
+    document.querySelector('.nav-overlay').classList.remove('active');
+  }
+  document.querySelectorAll('.nav-link, .nav-cta').forEach(function(link) {
+    link.addEventListener('click', closeMenu);
+  });
+  window.addEventListener('resize', function() {
+    if (window.innerWidth > 900) closeMenu();
+  });
+
+  document.querySelectorAll('.faq-question').forEach(button => {
+    button.addEventListener('click', () => {
+      const item = button.parentElement;
+      const isActive = item.classList.contains('active');
+
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+
+      if (!isActive) {
+        item.classList.add('active');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

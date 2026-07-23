@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Horizon House — Sober Living</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand: #F5EFE4;
+    --warm-white: #FDFAF5;
+    --horizon: #B8CDD4;
+    --deep: #2C3E3F;
+    --clay: #9E7B5A;
+    --mist: #D9E6EA;
+    --text: #3A3028;
+    --light-text: #7A6E64;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--warm-white);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.4rem 3rem;
+    background: rgba(253,250,245,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(184,205,212,0.3);
+  }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    color: var(--deep);
+    text-transform: uppercase;
+  }
+
+  .nav-logo span {
+    color: var(--clay);
+  }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .nav-link {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--deep);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .nav-link:hover { color: var(--clay); }
+
+  .nav-cta {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--warm-white);
+    background: var(--deep);
+    padding: 0.65rem 1.6rem;
+    text-decoration: none;
+    transition: background 0.3s ease;
+  }
+
+  .nav-cta:hover { background: var(--clay); }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 4px;
+    z-index: 200;
+  }
+  .hamburger span {
+    width: 24px;
+    height: 2px;
+    background: var(--deep);
+    transition: all 0.3s ease;
+    display: block;
+  }
+  .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+  .hamburger.active span:nth-child(2) { opacity: 0; }
+  .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+  .nav-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(44,62,63,0.5);
+    z-index: 90;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .nav-overlay.active {
+    display: block;
+    opacity: 1;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 80px;
+  }
+
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6rem 4rem 6rem 5rem;
+    background: var(--warm-white);
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--clay);
+    margin-bottom: 1.8rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.2rem, 5vw, 5.5rem);
+    font-weight: 300;
+    line-height: 1.05;
+    color: var(--deep);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.4s forwards;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--clay);
+  }
+
+  .hero-desc {
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--light-text);
+    max-width: 420px;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.6s forwards;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.8s forwards;
+  }
+
+  .btn-primary {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--warm-white);
+    background: var(--deep);
+    padding: 1rem 2.2rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+  }
+
+  .btn-primary:hover {
+    background: var(--clay);
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    color: var(--light-text);
+    text-decoration: none;
+    border-bottom: 1px solid var(--horizon);
+    padding-bottom: 2px;
+    transition: color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .btn-secondary:hover {
+    color: var(--clay);
+    border-color: var(--clay);
+  }
+
+  .hero-right {
+    position: relative;
+    overflow: hidden;
+    background: var(--mist);
+  }
+
+  .hero-image-wrapper {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    animation: fadeIn 1.2s ease 0.5s forwards;
+  }
+
+  /* Gradient ocean/horizon image simulation */
+  .hero-bg {
+    width: 100%;
+    height: 100%;
+    background:
+      linear-gradient(
+        160deg,
+        #C8DDE4 0%,
+        #B0C8D2 25%,
+        #8DAFC0 50%,
+        #6B93A8 70%,
+        #4A7A8E 85%,
+        #2C5F72 100%
+      );
+    position: relative;
+  }
+
+  .hero-bg::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 40%;
+    background: linear-gradient(to top, rgba(44,63,63,0.4), transparent);
+  }
+
+  /* Sun/horizon glow */
+  .horizon-glow {
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(255,220,160,0.6) 0%, rgba(255,180,80,0.2) 40%, transparent 70%);
+    border-radius: 50%;
+  }
+
+  /* Horizon line */
+  .horizon-line {
+    position: absolute;
+    top: 50%;
+    left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.6), transparent);
+  }
+
+  .hero-quote {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 2rem;
+    right: 2rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-style: italic;
+    font-weight: 300;
+    color: rgba(255,255,255,0.9);
+    line-height: 1.6;
+    text-align: center;
+  }
+
+  /* ── BAND ── */
+  .trust-band {
+    background: var(--deep);
+    padding: 1.6rem 5rem;
+    display: flex;
+    justify-content: center;
+    gap: 4rem;
+    flex-wrap: wrap;
+  }
+
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    color: rgba(255,255,255,0.7);
+    font-size: 0.78rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .trust-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--clay);
+    flex-shrink: 0;
+  }
+
+  /* ── MISSION ── */
+  .mission {
+    background: var(--sand);
+    padding: 4.5rem 5rem;
+    text-align: center;
+  }
+
+  .mission p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.4rem, 2.4vw, 2rem);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.6;
+    color: var(--deep);
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  /* ── WHAT WE OFFER ── */
+  .section {
+    padding: 7rem 5rem;
+  }
+
+  .section-label {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--clay);
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.2rem, 3.5vw, 3.5rem);
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--deep);
+    max-width: 600px;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-title em { font-style: italic; color: var(--clay); }
+
+  .section-sub {
+    font-size: 0.95rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--light-text);
+    max-width: 520px;
+    margin-bottom: 4rem;
+  }
+
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--horizon);
+  }
+
+  .pillar {
+    background: var(--warm-white);
+    padding: 3rem 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.4s ease;
+  }
+
+  .pillar:hover { background: var(--sand); }
+
+  .pillar-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 4rem;
+    font-weight: 300;
+    color: rgba(184,205,212,0.5);
+    line-height: 1;
+    margin-bottom: 1.5rem;
+  }
+
+  .pillar-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--deep);
+    margin-bottom: 0.8rem;
+  }
+
+  .pillar-desc {
+    font-size: 0.88rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--light-text);
+  }
+
+  /* ── AMENITIES ── */
+  .amenities {
+    background: var(--warm-white);
+    padding: 7rem 5rem;
+  }
+
+  .amenities-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.2rem 3rem;
+    margin-top: 3rem;
+    max-width: 700px;
+  }
+
+  .amenity-item {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    font-size: 0.95rem;
+    font-weight: 300;
+    color: var(--text);
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--horizon);
+  }
+
+  .amenity-check {
+    width: 1.4rem;
+    height: 1.4rem;
+    border-radius: 50%;
+    background: var(--clay);
+    color: var(--warm-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  /* ── PHILOSOPHY ── */
+  .philosophy {
+    background: var(--deep);
+    padding: 7rem 5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+
+  .philosophy-left {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 3vw, 3.2rem);
+    font-weight: 300;
+    line-height: 1.3;
+    color: var(--warm-white);
+  }
+
+  .philosophy-left em {
+    font-style: italic;
+    color: var(--horizon);
+  }
+
+  .philosophy-right {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .phil-item {
+    border-left: 2px solid var(--clay);
+    padding-left: 1.5rem;
+  }
+
+  .phil-item-title {
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--horizon);
+    margin-bottom: 0.5rem;
+  }
+
+  .phil-item-desc {
+    font-size: 0.9rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: rgba(253,250,245,0.6);
+  }
+
+  /* ── WHO IS IT FOR ── */
+  .for-section {
+    background: var(--sand);
+    padding: 7rem 5rem;
+  }
+
+  .for-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 3rem;
+    margin-top: 4rem;
+  }
+
+  .for-card {
+    background: var(--warm-white);
+    padding: 2.5rem;
+    border-top: 3px solid var(--horizon);
+    transition: border-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .for-card:hover {
+    border-color: var(--clay);
+    transform: translateY(-4px);
+  }
+
+  .for-card-icon {
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+
+  .for-card-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: var(--deep);
+    margin-bottom: 0.8rem;
+  }
+
+  .for-card-desc {
+    font-size: 0.88rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--light-text);
+  }
+
+  /* ── PROCESS ── */
+  .process {
+    padding: 7rem 5rem;
+    background: var(--warm-white);
+  }
+
+  .steps {
+    display: flex;
+    gap: 0;
+    margin-top: 4rem;
+    position: relative;
+  }
+
+  .steps::before {
+    content: '';
+    position: absolute;
+    top: 2.2rem;
+    left: 2.2rem;
+    right: 2.2rem;
+    height: 1px;
+    background: linear-gradient(to right, var(--clay), var(--horizon));
+  }
+
+  .step {
+    flex: 1;
+    text-align: center;
+    padding: 0 1.5rem;
+    position: relative;
+  }
+
+  .step-circle {
+    width: 4.4rem;
+    height: 4.4rem;
+    border-radius: 50%;
+    background: var(--warm-white);
+    border: 2px solid var(--clay);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    position: relative;
+    z-index: 1;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem;
+    font-weight: 300;
+    color: var(--clay);
+    transition: all 0.3s ease;
+  }
+
+  .step:hover .step-circle {
+    background: var(--clay);
+    color: var(--warm-white);
+  }
+
+  .step-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--deep);
+    margin-bottom: 0.5rem;
+  }
+
+  .step-desc {
+    font-size: 0.82rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--light-text);
+  }
+
+  /* ── TESTIMONIAL ── */
+  .testimonial-section {
+    background: var(--mist);
+    padding: 6rem 5rem;
+    text-align: center;
+  }
+
+  .big-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem, 3vw, 2.6rem);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--deep);
+    max-width: 760px;
+    margin: 0 auto 2rem;
+  }
+
+  .quote-attr {
+    font-size: 0.8rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--clay);
+  }
+
+  /* ── CONTACT ── */
+  .contact {
+    background: var(--warm-white);
+    padding: 7rem 5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: start;
+  }
+
+  .contact-left .section-title { max-width: 100%; }
+
+  .contact-note {
+    font-size: 0.88rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--light-text);
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--horizon);
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .form-group label {
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--light-text);
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: var(--text);
+    background: var(--sand);
+    border: 1px solid transparent;
+    padding: 0.9rem 1.1rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+    width: 100%;
+    appearance: none;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--clay);
+  }
+
+  .form-group textarea { resize: vertical; min-height: 120px; }
+
+  .form-submit {
+    font-family: 'Jost', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--warm-white);
+    background: var(--deep);
+    border: none;
+    padding: 1.1rem 2.5rem;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+    margin-top: 0.5rem;
+    align-self: flex-start;
+  }
+
+  .form-submit:hover {
+    background: var(--clay);
+    transform: translateY(-2px);
+  }
+
+  /* ── PHONE BANNER ── */
+  .phone-banner {
+    background: var(--clay);
+    padding: 3rem 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .phone-banner-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--warm-white);
+  }
+
+  .phone-banner-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.5rem;
+    font-weight: 400;
+    color: var(--warm-white);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: opacity 0.3s ease;
+  }
+
+  .phone-banner-number:hover { opacity: 0.8; }
+
+  .phone-banner-sub {
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(253,250,245,0.7);
+    margin-top: 0.3rem;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--deep);
+    padding: 3rem 5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--warm-white);
+  }
+
+  .footer-logo span { color: var(--horizon); }
+
+  .footer-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .footer-links a {
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(253,250,245,0.5);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .footer-links a:hover { color: var(--horizon); }
+
+  .footer-copy {
+    font-size: 0.75rem;
+    color: rgba(253,250,245,0.3);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 900px) {
+    .hamburger { display: flex; }
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-right {
+      position: fixed;
+      top: 0; right: -300px;
+      width: 280px;
+      height: 100vh;
+      background: var(--warm-white);
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 2rem 2.5rem;
+      gap: 0;
+      z-index: 150;
+      transition: right 0.3s ease;
+      box-shadow: -4px 0 20px rgba(0,0,0,0.1);
+    }
+    .nav-right.active { right: 0; }
+    .nav-link { font-size: 0.9rem; padding: 0.9rem 0; width: 100%; border-bottom: 1px solid rgba(184,205,212,0.3); }
+    .nav-cta { margin-top: 1rem; width: 100%; text-align: center; padding: 0.8rem 1.6rem; }
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-left { padding: 5rem 1.8rem 3rem; }
+    .hero-right { height: 50vw; min-height: 280px; }
+    .section { padding: 5rem 1.8rem; }
+    .mission { padding: 3.5rem 1.8rem; }
+    .pillars { grid-template-columns: 1fr; gap: 2px; }
+    .amenities { padding: 5rem 1.8rem; }
+    .amenities-list { grid-template-columns: 1fr; }
+    .philosophy { grid-template-columns: 1fr; padding: 5rem 1.8rem; gap: 3rem; }
+    .for-section { padding: 5rem 1.8rem; }
+    .for-grid { grid-template-columns: 1fr; }
+    .process { padding: 5rem 1.8rem; }
+    .steps { flex-direction: column; gap: 2rem; }
+    .steps::before { display: none; }
+    .step { text-align: left; display: flex; gap: 1.5rem; align-items: flex-start; }
+    .step-circle { margin: 0; flex-shrink: 0; }
+    .testimonial-section { padding: 5rem 1.8rem; }
+    .contact { grid-template-columns: 1fr; padding: 5rem 1.8rem; gap: 3rem; }
+    .phone-banner { padding: 2.5rem 1.8rem; flex-direction: column; align-items: flex-start; }
+    .trust-band { padding: 1.4rem 1.8rem; gap: 1.5rem; justify-content: flex-start; }
+    footer { padding: 2.5rem 1.8rem; flex-direction: column; align-items: flex-start; }
+    .footer-links { flex-wrap: wrap; gap: 1.2rem; }
+  }
+
+  @media (max-width: 600px) {
+    nav { padding: 1rem 1.2rem; }
+    .nav-logo { font-size: 1.2rem; }
+    .hero-left { padding: 4.5rem 1.2rem 2rem; }
+    .hero-title { font-size: 2.4rem; }
+    .hero-desc { font-size: 0.92rem; }
+    .hero-actions { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
+    .hero-right { min-height: 220px; }
+    .section { padding: 3.5rem 1.2rem; }
+    .section-title { font-size: 1.8rem; }
+    .mission { padding: 2.5rem 1.2rem; }
+    .amenities { padding: 3.5rem 1.2rem; }
+    .amenities-list { gap: 0.8rem 1.5rem; }
+    .amenity-item { font-size: 0.88rem; }
+    .philosophy { padding: 3.5rem 1.2rem; gap: 2rem; }
+    .philosophy-left { font-size: 1.6rem; }
+    .for-section { padding: 3.5rem 1.2rem; }
+    .for-card { padding: 1.8rem; }
+    .process { padding: 3.5rem 1.2rem; }
+    .step { flex-direction: column; align-items: center; text-align: center; gap: 1rem; }
+    .testimonial-section { padding: 3.5rem 1.2rem; }
+    .big-quote { font-size: 1.4rem; }
+    .contact { padding: 3.5rem 1.2rem; gap: 2rem; }
+    .phone-banner { padding: 2rem 1.2rem; }
+    .phone-banner-number { font-size: 1.8rem; }
+    .phone-banner-text { font-size: 1.2rem; }
+    .trust-band { padding: 1rem 1.2rem; gap: 1rem; flex-direction: column; }
+    .trust-item { font-size: 0.7rem; }
+    footer { padding: 2rem 1.2rem; }
+    .footer-links { gap: 0.8rem; }
+    .footer-links a { font-size: 0.68rem; }
+    .hero-quote { font-size: 0.95rem; bottom: 1.5rem; left: 1rem; right: 1rem; }
+    .horizon-glow { width: 140px; height: 140px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav-overlay" onclick="closeMenu()"></div>
+<nav>
+  <div class="nav-logo">Horizon <span>House</span></div>
+  <button class="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="nav-right">
+    <a href="/" class="nav-link">Home</a>
+    <a href="what-we-do.html" class="nav-link">About</a>
+    <a href="house-rules.html" class="nav-link">House Rules</a>
+    <a href="faq.html" class="nav-link">FAQ</a>
+    <a href="index.html#contact" class="nav-link">Contact</a>
+    <a href="index.html#contact" class="nav-cta">Start Today</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Sober Living &amp; Recovery Homes</p>
+    <h1 class="hero-title">
+      A new <em>horizon</em><br>begins here.
+    </h1>
+    <p class="hero-desc">
+      Horizon House provides structured, supportive sober living for men and women committed to lasting recovery. A real home. A real community. A real chance.
+    </p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Apply Now</a>
+      <a href="#about" class="btn-secondary">Learn more</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-image-wrapper">
+      <div class="hero-bg">
+        <div class="horizon-glow"></div>
+        <div class="horizon-line"></div>
+      </div>
+      <p class="hero-quote">"Every sunrise is a reminder that we can begin again."</p>
+    </div>
+  </div>
+</section>
+
+<!-- TRUST BAND -->
+<div class="trust-band">
+  <div class="trust-item"><span class="trust-dot"></span>Structured Environment</div>
+  <div class="trust-item"><span class="trust-dot"></span>Peer Accountability</div>
+  <div class="trust-item"><span class="trust-dot"></span>Drug &amp; Alcohol Free</div>
+  <div class="trust-item"><span class="trust-dot"></span>Recovery-Focused Community</div>
+  <div class="trust-item"><span class="trust-dot"></span>Life Skills Support</div>
+</div>
+
+<!-- MISSION -->
+<section class="mission reveal">
+  <p>Our mission is to provide safe and affordable housing for the most vulnerable communities in California.</p>
+</section>
+
+<!-- WHAT WE OFFER -->
+ 
+<section class="section" id="about">
+  <div class="reveal">
+    <p class="section-label">What We Offer</p>
+    <h2 class="section-title">More than a place to sleep.<br><em>A place to rebuild.</em></h2>
+    <p class="section-sub">Horizon House is built on three foundations — structure, community, and accountability. Each resident walks a path toward independence while never walking it alone.</p>
+  </div>
+  <div class="pillars reveal">
+    <div class="pillar">
+      <div class="pillar-num">01</div>
+      <h3 class="pillar-title">Safe Housing</h3>
+      <p class="pillar-desc">Fully furnished, clean, and drug-free private and shared rooms in a welcoming home environment. All utilities included.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">02</div>
+      <h3 class="pillar-title">Structure &amp; Accountability</h3>
+      <p class="pillar-desc">House meetings, curfews, and regular drug testing create a framework that supports sobriety — especially in the critical early months.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">03</div>
+      <h3 class="pillar-title">Community</h3>
+      <p class="pillar-desc">Surround yourself with people who understand the journey. Peer support, shared meals, and mutual accountability are the heartbeat of Horizon House.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">04</div>
+      <h3 class="pillar-title">12-Step Integration</h3>
+      <p class="pillar-desc">Regular meeting attendance is encouraged. We work alongside AA, NA, and other peer recovery programs to support your chosen path.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">05</div>
+      <h3 class="pillar-title">Life Skills</h3>
+      <p class="pillar-desc">From budgeting and job searching to cooking and time management — residents rebuild the daily rhythms that sustain long-term independence.</p>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">06</div>
+      <h3 class="pillar-title">Aftercare Connection</h3>
+      <p class="pillar-desc">We connect residents with outpatient treatment, counseling, employment resources, and community services to build a lasting support network.</p>
+    </div>
+  </div>
+</section>
+
+<!-- AMENITIES -->
+<section class="amenities">
+  <div class="reveal">
+    <p class="section-label">What's Included</p>
+    <h2 class="section-title">Everything you need to <em>feel at home.</em></h2>
+  </div>
+  <div class="amenities-list reveal">
+    <div class="amenity-item"><span class="amenity-check">✓</span>Twin bed w/ sheets &amp; comforter</div>
+    <div class="amenity-item"><span class="amenity-check">✓</span>Dresser</div>
+    <div class="amenity-item"><span class="amenity-check">✓</span>All utilities included</div>
+    <div class="amenity-item"><span class="amenity-check">✓</span>Washer &amp; Dryer</div>
+    <div class="amenity-item"><span class="amenity-check">✓</span>Living Room Television</div>
+    <div class="amenity-item"><span class="amenity-check">✓</span>Wi-Fi Internet &amp; Community Computer Station</div>
+    <div class="amenity-item"><span class="amenity-check">✓</span>Clean, recently remodeled home</div>
+  </div>
+</section>
+
+<!-- PHILOSOPHY -->
+<section class="philosophy">
+  <div class="philosophy-left reveal">
+    Recovery is not a destination.<br>
+    It is a <em>daily practice</em> of choosing yourself — again and again.
+  </div>
+  <div class="philosophy-right reveal">
+    <div class="phil-item">
+      <div class="phil-item-title">Our Belief</div>
+      <p class="phil-item-desc">Every person who walks through our door deserves dignity, respect, and a genuine opportunity to rebuild their life on solid ground.</p>
+    </div>
+    <div class="phil-item">
+      <div class="phil-item-title">Our Approach</div>
+      <p class="phil-item-desc">We hold residents to high standards because we hold high belief in their potential. Structure is not punishment — it is the container in which transformation happens.</p>
+    </div>
+    <div class="phil-item">
+      <div class="phil-item-title">Our Promise</div>
+      <p class="phil-item-desc">A safe, substance-free home where you are known, supported, and challenged to become the person you are capable of being.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WHO IT'S FOR -->
+<section class="for-section" id="admissions">
+  <div class="reveal">
+    <p class="section-label">Who We Welcome</p>
+    <h2 class="section-title">Horizon House is for those <em>ready</em> to do the work.</h2>
+  </div>
+  <div class="for-grid reveal">
+    <div class="for-card">
+      <div class="for-card-icon">🏥</div>
+      <h3 class="for-card-title">Post-Treatment</h3>
+      <p class="for-card-desc">Transitioning from inpatient rehab, detox, or a residential program and need a structured next step before returning to independent living.</p>
+    </div>
+    <div class="for-card">
+      <div class="for-card-icon">⚖️</div>
+      <h3 class="for-card-title">Court-Referred</h3>
+      <p class="for-card-desc">Referred by a court, probation officer, or drug program. We work alongside case managers and accept court-ordered placements.</p>
+    </div>
+    <div class="for-card">
+      <div class="for-card-icon">🔄</div>
+      <h3 class="for-card-title">Returning to Recovery</h3>
+      <p class="for-card-desc">Experienced a relapse and ready to recommit. No judgment — only support for the next chapter of your recovery journey.</p>
+    </div>
+    <div class="for-card">
+      <div class="for-card-icon">🏠</div>
+      <h3 class="for-card-title">Unstable Home Environment</h3>
+      <p class="for-card-desc">Your current living situation puts your sobriety at risk. Horizon House offers a stable, trigger-free alternative.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="reveal">
+    <p class="section-label">How To Apply</p>
+    <h2 class="section-title">Three steps to <em>getting started.</em></h2>
+  </div>
+  <div class="steps reveal">
+    <div class="step">
+      <div class="step-circle">1</div>
+      <div>
+        <h3 class="step-title">Reach Out</h3>
+        <p class="step-desc">Call or fill out our contact form. We respond promptly — often same day. No pressure, just a conversation.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-circle">2</div>
+      <div>
+        <h3 class="step-title">Application</h3>
+        <p class="step-desc">A brief intake to understand where you are in recovery and confirm that Horizon House is the right fit for your needs.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-circle">3</div>
+      <div>
+        <h3 class="step-title">Move In</h3>
+        <p class="step-desc">Get settled, meet your housemates, and begin. The hardest part is making the call — everything else, we help with.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- PHONE BANNER -->
+<div class="phone-banner">
+  <div>
+    <p class="phone-banner-text">Ready to take the next step?</p>
+    <p class="phone-banner-sub">Confidential. No judgment. We answer.</p>
+  </div>
+  <div>
+    <a href="tel:+15550000000" class="phone-banner-number">(555) 000-0000</a>
+    <p class="phone-banner-sub">Available 7 days a week</p>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-left reveal">
+    <p class="section-label">Get In Touch</p>
+    <h2 class="section-title">The first step is just a <em>conversation.</em></h2>
+    <p class="contact-note">
+      All inquiries are completely confidential. Whether you're reaching out for yourself or a loved one, our team is here to answer your questions and help you understand if Horizon House is the right fit.<br><br>
+       and offer flexible payment arrangements. Referrals from treatment centers, courts, and case managers are welcome.
+    </p>
+  </div>
+  <div class="reveal">
+    <form class="contact-form" onsubmit="handleSubmit(event)">
+
+  <div class="form-group">
+    <label>Your Name</label>
+    <input
+      type="text"
+      name="name"
+      placeholder="First and last name"
+      required
+    >
+  </div>
+
+  <div class="form-group">
+    <label>Phone Number</label>
+    <input
+      type="tel"
+      name="phone"
+      placeholder="Best number to reach you"
+    >
+  </div>
+
+  <div class="form-group">
+    <label>Email Address</label>
+    <input
+      type="email"
+      name="email"
+      placeholder="your@email.com"
+      required
+    >
+  </div>
+
+  <div class="form-group">
+    <label>Who is this for?</label>
+
+    <select name="person">
+      <option value="">Select one</option>
+      <option value="myself">Myself</option>
+      <option value="family-member">A family member</option>
+      <option value="client-patient">A client / patient</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>Message</label>
+
+    <textarea
+      name="message"
+      placeholder="Tell us a little about your situation or ask any questions."
+    ></textarea>
+  </div>
+
+  <button type="submit" class="form-submit">
+    Send Message
+  </button>
+
+</form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="index.html" class="footer-logo">Horizon <span>House</span></a>
+  <ul class="footer-links">
+    <li><a href="what-we-do.html">About</a></li>
+    <li><a href="index.html#admissions">Admissions</a></li>
+    <li><a href="index.html#process">How to Apply</a></li>
+    <li><a href="house-rules.html">House Rules</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+    <li><a href="index.html#contact">Contact</a></li>
+  </ul>
+  <p class="footer-copy">© 2025 Horizon House. All rights reserved.</p>
+</footer>
+
+<script>
+  // Mobile menu
+  function toggleMenu() {
+    document.querySelector('.nav-right').classList.toggle('active');
+    document.querySelector('.hamburger').classList.toggle('active');
+    document.querySelector('.nav-overlay').classList.toggle('active');
+  }
+  function closeMenu() {
+    document.querySelector('.nav-right').classList.remove('active');
+    document.querySelector('.hamburger').classList.remove('active');
+    document.querySelector('.nav-overlay').classList.remove('active');
+  }
+  document.querySelectorAll('.nav-link, .nav-cta').forEach(function(link) {
+    link.addEventListener('click', closeMenu);
+  });
+  window.addEventListener('resize', function() {
+    if (window.innerWidth > 900) closeMenu();
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Form handler
+ async function handleSubmit(e) {
+  e.preventDefault();
+
+  const form = e.target;
+  const btn = form.querySelector(".form-submit");
+
+  const formData = new FormData(form);
+
+  const data = {
+    name: formData.get("name"),
+    email: formData.get("email"),
+    phone: formData.get("phone"),
+    person: formData.get("person"),
+    message: formData.get("message"),
+  };
+
+  btn.textContent = "Sending...";
+  btn.disabled = true;
+
+  try {
+    const response = await fetch("/.netlify/functions/send-email", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.error || "Something went wrong");
+    }
+
+    console.log(result);
+
+    btn.textContent = "Message Sent ✓";
+    btn.style.background = "#4A7A8E";
+
+    form.reset();
+
+  } catch (error) {
+    console.error(error);
+
+    btn.textContent = "Something went wrong";
+    btn.disabled = false;
+  }
+}
+</script>
+
+</body>
+</html>

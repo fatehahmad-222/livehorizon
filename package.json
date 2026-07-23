@@ -1,0 +1,21 @@
+{
+  "name": "horizonhouse",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Horizon House website with Constant Contact OAuth integration.",
+  "scripts": {
+    "build": "echo 'Static site'",
+    "db:generate": "drizzle-kit generate"
+  },
+  "dependencies": {
+    "@netlify/database": "^1.1.0",
+    "@netlify/functions": "^5.3.0",
+    "drizzle-orm": "^1.0.0-beta.22",
+    "nodemailer": "^9.0.3"
+  },
+  "devDependencies": {
+    "@types/nodemailer": "^8.0.1",
+    "drizzle-kit": "^1.0.0-beta.22"
+  }
+}
