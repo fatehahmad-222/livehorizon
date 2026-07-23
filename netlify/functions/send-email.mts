@@ -74,6 +74,7 @@ export default async function handler(request: Request, _context: Context) {
   }
 
   // Send email notification to the site owner.
+  console.log("[send-email] Attempting to send notification email...");
   try {
     await sendNotificationEmail({
       name: data.name,
@@ -82,9 +83,10 @@ export default async function handler(request: Request, _context: Context) {
       person: data.person,
       message: data.message,
     });
+    console.log("[send-email] Notification email sent successfully.");
   } catch (err) {
     console.error(
-      "Failed to send notification email:",
+      "[send-email] Failed to send notification email:",
       err instanceof Error ? err.message : err,
     );
   }

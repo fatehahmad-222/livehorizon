@@ -32,9 +32,21 @@ function personLabel(person?: string): string {
 export async function sendNotificationEmail(
   data: NotificationInput,
 ): Promise<void> {
-  const gmailUser = requireEnv("GMAIL_USER");
-  const gmailPass = requireEnv("GMAIL_APP_PASSWORD");
-  const toEmail = requireEnv("NOTIFICATION_EMAIL");
+  console.log("[Notification] Starting email notification...");
+
+  const gmailUser = process.env.GMAIL_USER;
+  const gmailPass = process.env.GMAIL_APP_PASSWORD;
+  const toEmail = process.env.NOTIFICATION_EMAIL;
+
+  console.log("[Notification] GMAIL_USER:", gmailUser ? `${gmailUser.substring(0, 3)}***` : "MISSING");
+  console.log("[Notification] GMAIL_APP_PASSWORD:", gmailPass ? "SET" : "MISSING");
+  console.log("[Notification] NOTIFICATION_EMAIL:", toEmail || "MISSING");
+
+  if (!gmailUser || !gmailPass || !toEmail) {
+    throw new Error(
+      `Missing env vars - GMAIL_USER: ${gmailUser ? "OK" : "MISSING"}, GMAIL_APP_PASSWORD: ${gmailPass ? "OK" : "MISSING"}, NOTIFICATION_EMAIL: ${toEmail ? "OK" : "MISSING"}`,
+    );
+  }
 
   const transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
@@ -125,10 +137,14 @@ export async function sendNotificationEmail(
     </div>
   `;
 
-  await transporter.sendMail({
+  console.log("[Notification] Sending email to:", toEmail);
+
+  const info = await transporter.sendMail({
     from: `"Horizon House" <${gmailUser}>`,
     to: toEmail,
     subject: `New Contact Form Submission from ${displayName}`,
     html: htmlBody,
   });
+
+  console.log("[Notification] Email sent successfully! Message ID:", info.messageId);
 }
